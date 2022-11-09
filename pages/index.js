@@ -50,12 +50,21 @@ export default function Company(props) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <h1>{header}</h1>
-            <nav>
-                <Link href="/">Home</Link>
-                <Link href="/about">About</Link>
-            </nav>
-            <h5>{footer}</h5>
+            {header ? (
+                <>
+                    <h1>{header}</h1>
+                    <nav>
+                        <Link href="/">Home</Link>
+                        <Link href="/about">About</Link>
+                    </nav>
+                    <h5>{footer}</h5>
+                </>
+            ) : (
+                <h1 style={{ color: 'red' }}>
+                    {' '}
+                    Error: empty props, check the console
+                </h1>
+            )}
         </div>
     );
 }
