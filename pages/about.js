@@ -1,12 +1,32 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import styles from '../styles/Home.module.css';
 
 export async function getStaticProps() {
+    const query = `
+		query {
+			aboutPageCollection(limit: 1, preview: true) {
+				items {
+					header
+					footer
+				}
+			}
+		}
+	`;
+
     const content = await fetch(
-        'https://nextbugtest.free.beeceptor.com/about'
+        `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${process.env.CONTENTFUL_TOKEN}`,
+            },
+            body: JSON.stringify({ query }),
+        }
     ).then(response => {
-        return response.json();
+        return response.json().then(response => {
+            return response.data.aboutPageCollection.items[0];
+        });
     });
 
     return {
@@ -18,7 +38,7 @@ export default function About(props) {
     const { header, footer } = props;
 
     return (
-        <div className={styles.container}>
+        <div>
             <Head>
                 <title>Create Next App</title>
                 <meta
@@ -28,12 +48,12 @@ export default function About(props) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <h1>{header.name}</h1>
+            <h1>{header}</h1>
             <nav>
                 <Link href="/">Home</Link>
                 <Link href="/about">About</Link>
             </nav>
-            <h5>{footer.name}</h5>
+            <h5>{footer}</h5>
         </div>
     );
 }
