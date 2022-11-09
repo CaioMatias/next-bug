@@ -10,7 +10,8 @@ const redirectToBasePath = [
 ];
 
 const nextConfig = {
-    reactStrictMode: true,
+    poweredByHeader: false,
+    basePath: process.env.NEXT_PUBLIC_BASE_PATH,
     async redirects() {
         return [...redirectToBasePath];
     },
