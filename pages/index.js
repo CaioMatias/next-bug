@@ -35,6 +35,8 @@ export async function getStaticProps() {
 }
 
 export default function Company(props) {
+    console.log('props on "/": ', props);
+
     const { header, footer } = props;
 
     return (
