@@ -1,19 +1,21 @@
 import Head from 'next/head';
-import Image from 'next/image';
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 
 export async function getStaticProps() {
-    const content = await fetch('https://nextbugtest.free.beeceptor.com/home');
-
-    console.log(content);
+    const content = await fetch(
+        'https://nextbugtest.free.beeceptor.com/about'
+    ).then(response => {
+        return response.json();
+    });
 
     return {
         props: { ...content },
     };
 }
 
-export default function Home(props) {
-    console.log(props);
+export default function About(props) {
+    const { header, footer } = props;
 
     return (
         <div className={styles.container}>
@@ -25,6 +27,13 @@ export default function Home(props) {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
+            <h1>{header.name}</h1>
+            <nav>
+                <Link href="/">Home</Link>
+                <Link href="/about">About</Link>
+            </nav>
+            <h5>{footer.name}</h5>
         </div>
     );
 }
